@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CadastroCS.Data;
 using CadastroCS.Models;
+using NuGet.Common;
 
 namespace CadastroCS.Controllers
 {
@@ -54,12 +50,17 @@ namespace CadastroCS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Cadastro([Bind("Id,Name,Cnpj,Segmento,Cep,Endereco,Perfil")] Fornecedor fornecedor)
+        public async Task<IActionResult> Cadastro([Bind("Id,Name,Cnpj,Segmento,Cep,Endereco")] Fornecedor fornecedor)
         {
             if (ModelState.IsValid)
             {
+                var form = Request.Form;
                 _context.Add(fornecedor);
                 await _context.SaveChangesAsync();
+
+                var files = Request.Form.Files;
+                if (files.Count > 0){ SetImage(files[0], fornecedor); }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(fornecedor);
@@ -81,12 +82,13 @@ namespace CadastroCS.Controllers
             return View(fornecedor);
         }
 
-        public void UploadImage()
+        public void SetImage(IFormFile file, Fornecedor fornecedor)
         {
-
-            var body = Request.Body;
+            path = "~/profiles/" + fornecedor.Id.ToString() + ".png";
+            var filename = file.FileName;
+            var path = Path.Combine("~/profiles", string(fornecedor.Id);
             Console.Write("");
-            
+
         }
 
     }

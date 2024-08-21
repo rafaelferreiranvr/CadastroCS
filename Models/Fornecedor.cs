@@ -1,5 +1,6 @@
 ﻿using CadastroCS.Models.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 namespace CadastroCS.Models
 {
@@ -26,7 +27,7 @@ namespace CadastroCS.Models
         [StringLength(255, ErrorMessage = "O endereço não pode ter mais que 255 caractéres.")]
         public string Endereco { get; set; }
 
-        public string Perfil { get; set; }
+        public string Foto { get; set; } = "";
 
     }
 }

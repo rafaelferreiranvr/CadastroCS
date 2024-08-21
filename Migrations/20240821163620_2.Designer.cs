@@ -3,6 +3,7 @@ using CadastroCS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CadastroCS.Migrations
 {
     [DbContext(typeof(CadastroCSContext))]
-    partial class CadastroCSContextModelSnapshot : ModelSnapshot
+    [Migration("20240821163620_2")]
+    partial class _2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,8 +35,8 @@ namespace CadastroCS.Migrations
                     b.Property<int>("Cep")
                         .HasColumnType("int");
 
-                    b.Property<ulong>("Cnpj")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<int>("Cnpj")
+                        .HasColumnType("int");
 
                     b.Property<string>("Endereco")
                         .IsRequired()

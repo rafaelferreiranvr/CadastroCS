@@ -80,5 +80,14 @@ namespace CadastroCS.Controllers
             }
             return View(fornecedor);
         }
+
+        public void UploadImage()
+        {
+
+            var body = Request.Body;
+            Console.Write("");
+            
+        }
+
     }
 }

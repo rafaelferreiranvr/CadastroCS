@@ -18,12 +18,12 @@ namespace CadastroCS.Models
         [Required(ErrorMessage = "O campo Segmento é obrigatório.")]
         public Segmento Segmento { get; set; }
 
-        [StringLength(8, MinimumLength = 8, ErrorMessage = "Um CEP deve ter exatamente 8 dígitos.")]
         [Required(ErrorMessage = "O campo CEP é obrigatório.")]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "Um CEP deve ter exatamente 8 dígitos.")]
         public int Cep { get; set; }
 
-        [StringLength(255, ErrorMessage = "O endereço não pode ter mais que 255 caractéres.")]
         [Required(ErrorMessage = "O campo Endereco é obrigatório.")]
+        [StringLength(255, ErrorMessage = "O endereço não pode ter mais que 255 caractéres.")]
         public string Endereco { get; set; }
 
         public string Perfil { get; set; }

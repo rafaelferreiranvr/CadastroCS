@@ -15,7 +15,7 @@
                 <div class="mb-3 col-md-6">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" maxlength="101"/>
+                        <input asp-for="Name" class="form-control" maxlength="102"/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                 
                     <div class="form-group">
                         <label asp-for="Cnpj" class="control-label">CNPJ</label>
-                        <input asp-for="Cnpj" class="form-control" />
+                        <input asp-for="Cnpj" class="form-control"/>
                         <span asp-validation-for="Cnpj" class="text-danger"></span>
                     </div>
                 
@@ -38,17 +38,22 @@
 
                     <div class="mb-3 form-group">
                         <label asp-for="Segmento" class="control-label"></label>
-                        <select asp-for="Segmento" class="form-control"></select>
+                        <select asp-for="Segmento" class="form-control" >
+                            <option value="">Selecione uma opção</option>
+                            <option value="1">Comércio</option>
+                            <option value="2">Serviço</option>
+                            <option value="3">Indústria</option>
+                        </select>
                         <span asp-validation-for="Segmento" class="text-danger"></span>
                     </div>
                     <div class="mb-3 form-group">
                         <label asp-for="Cep" class="control-label">CEP</label>
-                        <input id="Cep" asp-for="Cep" class="form-control" />
+                        <input id="Cep" asp-for="Cep" class="form-control"/>
                         <span asp-validation-for="Cep" class="text-danger"></span>
                     </div>
                     <div class="mb-3 form-group">
                         <label asp-for="Endereco" class="control-label"></label>
-                        <input id="Endereco" asp-for="Endereco" class="form-control" />
+                        <input id="Endereco" asp-for="Endereco" class="form-control" maxlength="255"/>
                         <span asp-validation-for="Endereco" class="text-danger"></span>
                     </div>
 
@@ -105,8 +110,15 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var data = JSON.parse(xhr.responseText);
-                var str = data['logradouro'] + ', ' + data['bairro'] + ', ' + data['localidade'] + ', ' + data['uf'];
-                callback(str)
+
+                var str = "";
+                if (data['logradouro'] != undefined) { str += data['logradouro'] }
+                if (data['bairro'] != undefined) { str += ', ' + data['bairro'] }
+                if (data['localidade'] != undefined) { str += ', ' + data['localidade'] }
+                if (data['uf'] != undefined) { str += ', ' + data['uf'] }
+
+                var str_encurtada = str.length > 255 ? str.slice(0, 255) : str
+                callback(str_encurtada)
             }
         };
         xhr.send();

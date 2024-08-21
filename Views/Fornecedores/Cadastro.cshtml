@@ -12,18 +12,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="mb-3 col-md-6">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
+                        <input asp-for="Name" class="form-control" maxlength="101"/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
                 
-                <div class="col-md-6">
+                <div class="mb-3 col-md-6">
                 
                     <div class="form-group">
-                        <label asp-for="Cnpj" class="control-label"></label>
+                        <label asp-for="Cnpj" class="control-label">CNPJ</label>
                         <input asp-for="Cnpj" class="form-control" />
                         <span asp-validation-for="Cnpj" class="text-danger"></span>
                     </div>
@@ -32,26 +32,45 @@
 
             </div>
             
-            <div class="form-group">
-                <label asp-for="Segmento" class="control-label"></label>
-                <select asp-for="Segmento" class="form-control"></select>
-                <span asp-validation-for="Segmento" class="text-danger"></span>
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="mb-3 form-group">
+                        <label asp-for="Segmento" class="control-label"></label>
+                        <select asp-for="Segmento" class="form-control"></select>
+                        <span asp-validation-for="Segmento" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="Cep" class="control-label">CEP</label>
+                        <input id="Cep" asp-for="Cep" class="form-control" />
+                        <span asp-validation-for="Cep" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="Endereco" class="control-label"></label>
+                        <input id="Endereco" asp-for="Endereco" class="form-control" />
+                        <span asp-validation-for="Endereco" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div>
+                        <div class="p-4 mb-4 d-flex justify-content-center">
+                            <img id="selectedImage" src="~/profiles/default.png"
+                                 alt="example placeholder" style="width: 200px;" />
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div data-mdb-ripple-init class="btn btn-secondary btn-rounded btn-sm">
+                                <label class="form-label text-white m-1" for="imageInput" style="cursor:pointer">Enviar imagem</label>
+                                <input type="file" class="form-control d-none" id="imageInput" accept=".png" onchange="ExibirImagem(event, 'selectedImage')" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Cep" class="control-label"></label>
-                <input id="Cep" asp-for="Cep" class="form-control" />
-                <span asp-validation-for="Cep" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Endereco" class="control-label"></label>
-                <input id="Endereco" asp-for="Endereco" class="form-control" />
-                <span asp-validation-for="Endereco" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Perfil" class="control-label"></label>
-                <input asp-for="Perfil" class="form-control" />
-                <span asp-validation-for="Perfil" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Cadastrar" class="btn btn-primary" />
             </div>
@@ -91,6 +110,30 @@
             }
         };
         xhr.send();
+    }
+
+    function ExibirImagem(evento, imagem) {
+
+        input = event.target;
+        elemento_imagem = document.getElementById(imagem);
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                elemento_imagem.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]); 
+        }
+
+    }
+
+    function EnviarMensagemSeHouver(evento) {
+
+        input = document.getElementById("imageInput");
+
+
     }
 
 </script>

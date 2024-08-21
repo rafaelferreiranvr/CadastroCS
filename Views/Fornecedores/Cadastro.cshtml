@@ -8,7 +8,7 @@
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-action="Cadastro" id="CadastroForm" onsubmit="Enviar(event)" on>
+        <form asp-action="Cadastro" id="CadastroForm" onsubmit="Enviar(event); return false;" on>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="row">
@@ -184,12 +184,22 @@
 
         image_input = document.getElementById("imageInput");
         var file = image_input.files[0];
-        if (file) { 
+        if (file) {
             form_data.append("image", file);
         }
 
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/Fornecedores/Cadastro", true);
+
+        xhr.onload = function () {
+
+            if (xhr.status >= 200 && xhr.status < 300) {
+                window.location.href = '/Fornecedores';
+            } else {
+                alert('An error occurred: ' + xhr.statusText);
+            }
+        }
+
         xhr.send(form_data);
 
     }

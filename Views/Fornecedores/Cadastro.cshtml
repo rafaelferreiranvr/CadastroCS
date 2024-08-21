@@ -144,7 +144,17 @@
     function EnviarMensagemSeHouver(evento) {
 
         input = document.getElementById("imageInput");
+        var file = fileInput.files[0];
 
+        if (file) {
+
+            var formData = new FormData();
+            formData.append("image", file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Fornecedores/UploadImage", true);
+
+        }
 
     }
 

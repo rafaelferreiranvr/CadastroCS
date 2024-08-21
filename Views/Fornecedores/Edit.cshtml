@@ -2,49 +2,85 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var id = Model?.Id;
 }
 
-<h3>Editar Cadastro</h3>
+<h1>Editar Cadastro</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+           
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Nome</label>
+                        <input asp-for="Name" class="form-control" maxlength="102"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="mb-3 col-md-6">
+                
+                    <div class="form-group">
+                        <label asp-for="Cnpj" class="control-label">CNPJ</label>
+                        <input asp-for="Cnpj" class="form-control"/>
+                        <span asp-validation-for="Cnpj" class="text-danger"></span>
+                    </div>
+                
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Cnpj" class="control-label"></label>
-                <input asp-for="Cnpj" class="form-control" />
-                <span asp-validation-for="Cnpj" class="text-danger"></span>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="mb-3 form-group">
+                        <label asp-for="Segmento" class="control-label"></label>
+                        <select asp-for="Segmento" class="form-control">
+                            <option value="">Selecione uma opção</option>
+                            <option value="1">Comércio</option>
+                            <option value="2">Serviço</option>
+                            <option value="3">Indústria</option>
+                        </select>
+                        <span asp-validation-for="Segmento" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="Cep" class="control-label">CEP</label>
+                        <input id="Cep" asp-for="Cep" class="form-control" />
+                        <span asp-validation-for="Cep" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="Endereco" class="control-label"></label>
+                        <input id="Endereco" asp-for="Endereco" class="form-control" maxlength="255" />
+                        <span asp-validation-for="Endereco" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div>
+                        <div class="p-4 mb-4 d-flex justify-content-center">
+                            <img id="selectedImage" src="@Url.Action("GetImage", "Fornecedores", new { id })"
+                                 alt="example placeholder" style="width: 200px;" />
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div data-mdb-ripple-init class="btn btn-secondary btn-rounded btn-sm">
+                                <label class="form-label text-white m-1" for="imageInput" style="cursor:pointer">Enviar imagem</label>
+                                <input type="file" class="form-control d-none" id="imageInput" accept=".png" onchange="ExibirImagem(event, 'selectedImage')" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
             <div class="form-group">
-                <label asp-for="Segmento" class="control-label"></label>
-                <select asp-for="Segmento" class="form-control"></select>
-                <span asp-validation-for="Segmento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cep" class="control-label"></label>
-                <input asp-for="Cep" class="form-control" />
-                <span asp-validation-for="Cep" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Endereco" class="control-label"></label>
-                <input asp-for="Endereco" class="form-control" />
-                <span asp-validation-for="Endereco" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Voltar para a lista</a>
 </div>
 
 @section Scripts {

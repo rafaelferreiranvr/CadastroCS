@@ -16,13 +16,13 @@ namespace CadastroCS.Controllers
             _context = context;
         }
 
-        // GET: Fornecedors
+        // GET: Fornecedores
         public async Task<IActionResult> Index()
         {
             return View(await _context.Fornecedor.ToListAsync());
         }
 
-        // GET: Fornecedors/Details/5
+        // GET: Fornecedores/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,22 +40,19 @@ namespace CadastroCS.Controllers
             return View(fornecedor);
         }
 
-        // GET: Fornecedors/Create
+        // GET: Fornecedores/Create
         public IActionResult Cadastro()
         {
             return View();
         }
 
-        // POST: Fornecedors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Fornecedores/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cadastro([Bind("Id,Name,Cnpj,Segmento,Cep,Endereco")] Fornecedor fornecedor)
         {
             if (ModelState.IsValid)
             {
-                var form = Request.Form;
                 _context.Add(fornecedor);
                 await _context.SaveChangesAsync();
 
@@ -70,7 +67,7 @@ namespace CadastroCS.Controllers
             return View(fornecedor);
         }
 
-        // GET: Fornecedors/Edit/5
+        // GET: Fornecedores/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,7 +80,44 @@ namespace CadastroCS.Controllers
             {
                 return NotFound();
             }
+
             return View(fornecedor);
+        }
+
+        // POST: Fornecedores/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("Id,Name,Cnpj,Segmento,Cep,Endereco")] Fornecedor novo_fornecedor)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(novo_fornecedor);
+            }
+
+            var fornecedor = await _context.Fornecedor.FindAsync(novo_fornecedor.Id);
+
+            if (fornecedor == null)
+            {
+                return NotFound();
+            }
+
+            fornecedor.Name = novo_fornecedor.Name;
+            fornecedor.Cnpj = novo_fornecedor.Cnpj;
+            fornecedor.Segmento = novo_fornecedor.Segmento;
+            fornecedor.Cep = novo_fornecedor.Cep;
+            fornecedor.Endereco = novo_fornecedor.Endereco;
+
+            _context.Update(fornecedor);
+            await _context.SaveChangesAsync();
+
+            var files = Request.Form.Files;
+            if (files.Count > 0)
+            {
+                await SetImage(files[0], fornecedor);
+            }
+
+            return RedirectToAction(nameof(Index));
+
         }
 
         public async Task<IActionResult> SetImage(IFormFile file, Fornecedor fornecedor)

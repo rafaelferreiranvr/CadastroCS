@@ -1,7 +1,7 @@
 ﻿@model CadastroCS.Models.Fornecedor
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Cadastrar Fornecedor";
 }
 
 <h1>Create</h1>
@@ -29,12 +29,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cep" class="control-label"></label>
-                <input asp-for="Cep" class="form-control" />
+                <input id="Cep" asp-for="Cep" class="form-control" />
                 <span asp-validation-for="Cep" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Endereco" class="control-label"></label>
-                <input asp-for="Endereco" class="form-control" />
+                <input id="Endereco" asp-for="Endereco" class="form-control" />
                 <span asp-validation-for="Endereco" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,6 +52,42 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script>
+    campo_cep = document.getElementById("Cep")
+    campo_cep.addEventListener('input', function () {
+        console.log(campo_cep.value.length)
+        campo_endereço = document.getElementById("Endereco")
+        if (campo_cep.value.length == 8) {
+
+            ViaCep(campo_cep.value, function(endereco_str) {
+                
+                console.log(endereco_str);
+            
+            })
+
+        }
+        else {
+
+            campo_endereço.value = "";
+
+        }
+    });
+
+    function ViaCep(cep, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://viacep.com.br/ws/' + cep + '/json/')
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var data = JSON.parse(xhr.responseText);
+                var str = data['logradouro'] + ', ' + data['bairro'] + ', ' + data['localidade'] + ', ' + data['uf'];
+                callback(str)
+            }
+        };
+        xhr.send();
+    }
+
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

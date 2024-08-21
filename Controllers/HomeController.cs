@@ -15,7 +15,7 @@ namespace CadastroCS.Controllers
 
 		public IActionResult Index()
 		{
-			return View();
+			return RedirectToAction("Cadastro", "Fornecedores");
 		}
 
 		public IActionResult Privacy()

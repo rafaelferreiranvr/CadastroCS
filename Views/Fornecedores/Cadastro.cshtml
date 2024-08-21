@@ -4,24 +4,34 @@
     ViewData["Title"] = "Cadastrar Fornecedor";
 }
 
-<h1>Create</h1>
-
-<h4>Fornecedor</h4>
+<h1>Cadastro de Fornecedor</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md-10">
+        <form asp-action="Cadastro">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                
+                    <div class="form-group">
+                        <label asp-for="Cnpj" class="control-label"></label>
+                        <input asp-for="Cnpj" class="form-control" />
+                        <span asp-validation-for="Cnpj" class="text-danger"></span>
+                    </div>
+                
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Cnpj" class="control-label"></label>
-                <input asp-for="Cnpj" class="form-control" />
-                <span asp-validation-for="Cnpj" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="Segmento" class="control-label"></label>
                 <select asp-for="Segmento" class="form-control"></select>
@@ -43,33 +53,29 @@
                 <span asp-validation-for="Perfil" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Cadastrar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 <script>
     campo_cep = document.getElementById("Cep")
+
     campo_cep.addEventListener('input', function () {
-        console.log(campo_cep.value.length)
-        campo_endereço = document.getElementById("Endereco")
+        campo_endereco = document.getElementById("Endereco")
         if (campo_cep.value.length == 8) {
 
             ViaCep(campo_cep.value, function(endereco_str) {
                 
-                console.log(endereco_str);
+                campo_endereco.value = endereco_str
             
             })
 
         }
         else {
 
-            campo_endereço.value = "";
+            campo_endereco.value = "";
 
         }
     });

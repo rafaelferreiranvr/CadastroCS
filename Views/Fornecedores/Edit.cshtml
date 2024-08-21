@@ -9,9 +9,9 @@
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-action="Edit">
+        <form asp-action="Edit" onsubmit="Enviar(event); return false;">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
+            <input type="hidden" asp-for="Id" />
             <div class="row">
                 <div class="mb-3 col-md-6">
                     <div class="form-group">
@@ -82,6 +82,129 @@
         </form>
     </div>
 </div>
+
+<script>
+    campo_cep = document.getElementById("Cep")
+    campo_cep.addEventListener('input', function () {
+        campo_endereco = document.getElementById("Endereco")
+        if (campo_cep.value.length == 8) {
+
+            ViaCep(campo_cep.value, function (endereco_str) {
+
+                campo_endereco.value = endereco_str
+
+            })
+
+        }
+        else {
+
+            campo_endereco.value = "";
+
+        }
+    });
+
+    function ViaCep(cep, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://viacep.com.br/ws/' + cep + '/json/')
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var data = JSON.parse(xhr.responseText);
+                console.log(data)
+                var str = "";
+
+                var first = true;
+                if (data['logradouro']) {
+                    str += data['logradouro'];
+                    console.log('tem logr')
+                    first = false;
+                }
+
+                if (data['bairro']) {
+
+                    if (first) {
+                        first = false;
+                    } else {
+                        str += ', ';
+                    }
+
+                    console.log('tem bair')
+                    str += data['bairro'];
+                }
+
+                if (data['localidade']) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        str += ', ';
+                    }
+
+                    console.log('tem local')
+                    str += data['localidade']
+                }
+
+                if (data['uf']) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        str += ', ';
+                    }
+
+                    console.log('tem uf')
+                    str += data['uf']
+                }
+
+                var str_encurtada = str.length > 255 ? str.slice(0, 255) : str
+                callback(str_encurtada)
+            }
+        };
+        xhr.send();
+    }
+
+    function ExibirImagem(evento, imagem) {
+
+        input = event.target;
+        elemento_imagem = document.getElementById(imagem);
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                elemento_imagem.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+
+    }
+
+    function Enviar(evento) {
+
+        var elemento_form = event.target;
+        var form_data = new FormData(elemento_form);
+
+        image_input = document.getElementById("imageInput");
+        var file = image_input.files[0];
+        if (file) {
+            form_data.append("image", file);
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Fornecedores/Edit", true);
+
+        xhr.onload = function () {
+
+            if (xhr.status >= 200 && xhr.status < 300) {
+                window.location.href = '/Fornecedores/';
+            } else {
+                alert('An error occurred: ' + xhr.statusText);
+            }
+        }
+
+        xhr.send(form_data);
+
+    }
+
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

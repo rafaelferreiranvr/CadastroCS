@@ -1,6 +1,5 @@
 ﻿using CadastroCS.Models.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
 
 namespace CadastroCS.Models
 {
@@ -8,7 +7,7 @@ namespace CadastroCS.Models
 	{
         public int Id { get; set; }
 
-        [StringLength(100, ErrorMessage ="O nome não pode exceder 100 caractéres.")]
+        [StringLength(100, ErrorMessage ="O nome não pode exceder 100 caracteres.")]
         [Required(ErrorMessage = "O campo Nome é obrigatório.")]
         public string Name { get; set; }
 
@@ -24,7 +23,7 @@ namespace CadastroCS.Models
         public int Cep { get; set; }
 
         [Required(ErrorMessage = "O campo Endereco é obrigatório.")]
-        [StringLength(255, ErrorMessage = "O endereço não pode ter mais que 255 caractéres.")]
+        [StringLength(255, ErrorMessage = "O endereço não pode ter mais que 255 caracteres.")]
         public string Endereco { get; set; }
 
         public string Foto { get; set; } = "";
